@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+# Árbol
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sistema para crear arquitectura de carpetas y archivos a partir de un archivo JSON para proyectos hechos en typescript con react y styled component.
+El proyecto esta hecho en typescript con react, styled components, JSZip y File-saver.
 
-## Available Scripts
+## Ejemplo
 
-In the project directory, you can run:
+Ejemplo de archivo json:
 
-### `npm start`
+{
+    "components": {
+        "auth": [
+            "Login"
+        ],
+        "landing": [
+            "LandingPanel",
+            "LandingHeader",
+            "LandingFooter",
+            "LandingContent"
+        ],
+        "mapConfig": [
+            "MapConfigPanel",
+            "MapConfigComponentMap",
+            "MapConfigMarker"
+        ]
+    }
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Primer nivel (ejemplo: component): carpeta raíz.
+Segundo nivel (auth, landing, mapConfig): carpetas contenedoras de componentes.
+Tercer nivel (Login, LandingPanel, LandingHeader, LandingFooter...): Carpeta componente;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Esta ultima (Carpeta componente) tendrá tres archivos:
+- index.ts
+- { nombre del componente }.ts
+- { nombre del componente }Styled.ts
 
-### `npm test`
+El archivo index.tsx contiene una plantilla para llamar al archivo que tendrá al componente:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+import { default } from "./{ nombre del componente }";
+```
 
-### `npm run build`
+El archivo { nombre del componente }.ts tendra una plantilla en donde incluye un componente estilizado llamado desde el archivo { nombre del componente }Styled.tsx:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+import { { nombre del componente }Styled } from "./{ nombre del componente }Styled";
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const { nombre del componente } = () => {
+    return(
+        <>
+            <{ nombre del componente }></{ nombre del componente }>
+        </>
+    );
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default { nombre del componente};
+```
 
-### `npm run eject`
+El archivo { nombre del componente }Styled.tsx tiene una plantilla para crear un componente estilizado base para el componente principal que se encuentra en su misma carpeta:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+import styled from "styled-components";
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export { nombre del componente } = styled.div`
+`;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Para hacer uso de este sistema solo hace falta clonar el repositorio y ejecutar:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+npm install
+npm start
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Posterior a la descarga del zip con las carpetas y archivos, se deben extraer en la carpeta src de tu proyecto react.
