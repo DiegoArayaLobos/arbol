@@ -7,6 +7,7 @@ El proyecto esta hecho en typescript con react, styled components, JSZip y File-
 
 Ejemplo de archivo json:
 
+```
 {
     "components": {
         "auth": [
@@ -25,6 +26,7 @@ Ejemplo de archivo json:
         ]
     }
 }
+```
 
 Primer nivel (ejemplo: component): carpeta raíz.
 Segundo nivel (auth, landing, mapConfig): carpetas contenedoras de componentes.
