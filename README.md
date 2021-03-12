@@ -54,7 +54,7 @@ const { nombre del componente } = () => {
     );
 }
 
-export default { nombre del componente};
+export default { nombre del componente };
 ```
 
 El archivo { nombre del componente }Styled.tsx tiene una plantilla para crear un componente estilizado base para el componente principal que se encuentra en su misma carpeta:
