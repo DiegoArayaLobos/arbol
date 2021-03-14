@@ -61,9 +61,9 @@ const App = () => {
             Object.values(jsonFiles).forEach((rootName: string) => {
                 Object.values(rootName).forEach((folderName: string, index: number) => {
                     Object.values(folderName).forEach((subFolderName: string) => {
-                        zip.file(`${root}/${folders[index]}/${subFolderName}/index.tsx`, `export { default } from "./${subFolderName}";`);
-                        zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}.tsx`, `import { ${subFolderName}Styled } from "./${subFolderName}Styled";\n\nconst ${subFolderName} = () => {\n    return(\n        <>\n            <${subFolderName}></${subFolderName}>\n        </>\n    );\n}\n\nexport default ${subFolderName};`);
-                        zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}Styled.tsx`, `import styled from "styled-components";\n\nexport const ${subFolderName}Styled = styled.div\`\n\`;`);
+                        zip.file(`${root}/${folders[index]}/${subFolderName}/index.tsx`, indexCreate(subFolderName));
+                        zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}.tsx`, componentCreate(subFolderName));
+                        zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}Styled.tsx`, componentStyledCreate(subFolderName));
                     });
                 });
             });
@@ -73,6 +73,18 @@ const App = () => {
             });
         }
     };
+
+    const indexCreate = (nameComponent: string): string => {
+        return `export { default } from "./${nameComponent}";`;
+    }
+
+    const componentCreate = (nameComponent: string): string => {
+        return `import { ${nameComponent}Styled } from "./${nameComponent}Styled";\n\nconst ${nameComponent} = () => {\n    return(\n        <>\n            <${nameComponent}Styled></${nameComponent}Styled>\n        </>\n    );\n}\n\nexport default ${nameComponent};`;
+    }
+
+    const componentStyledCreate = (nameComponent: string): string => {
+        return `import styled from "styled-components";\n\nexport const ${nameComponent}Styled = styled.div\`\n\`;`;
+    }
 
     return (
         <>
