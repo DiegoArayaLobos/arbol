@@ -144,7 +144,6 @@ const App = () => {
                             label = label + Object.values(Object.keys(folders)[index])[indexCondition];
                         }
                     }
-                    
                 })
                 return {
                     path: path,
