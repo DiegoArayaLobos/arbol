@@ -37,8 +37,97 @@ export const AppStyled = styled.div`
         div.containerForm {
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            div.subtitle {
+                span {
+                    font-size: .8rem;
+                    font-weight: 300;
+                }
+            }
+
+            div.options {
+                div.selected {
+                    height: 10vh;
+                    width: 10vh;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    transition: all 300ms;
+
+                    span {
+                        font-size: 5vh;
+                        font-weight: 700;
+                        margin: .5vh;
+                        height: 5vh;
+                    }
+                }
+
+                div.selected.js {
+                    background: gold;
+                }
+
+                div.selected.ts {
+                    background: dodgerblue;
+
+                    span {
+                        color: white;
+                    }
+                }
+            }
+
+            div.switch {
+                margin: 2vh 0 1vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+
+                div.background {
+                    background: #EFEFEF;
+                    height: 4vh;
+                    width: 5vw;
+                    ${shadow};
+                }
+
+                div.option.js {
+                    cursor: pointer;
+                    height: 4vh;
+                    width: 2.5vw;
+                    position: absolute;
+                    left: 0;
+                }
+
+                div.option.ts {
+                    cursor: pointer;
+                    height: 4vh;
+                    width: 2.5vw;
+                    position: absolute;
+                    right: 0;
+                }
+
+                div.pointer {
+                    cursor: pointer;
+                    background: white;
+                    width: 3vh;
+                    height: 3vh;
+                    position: absolute;
+                    margin: 0 .4vh;
+                    transition: all 300ms;
+                }
+
+                div.pointer.js {
+                    background: gold;
+                    transform: translateX(-1.5vw);
+                }
+
+                div.pointer.ts {
+                    background: dodgerblue;
+                    transform: translateX(1.5vw);
+                }
+            }
 
             div.inputForm {
                 display: flex;
