@@ -67,16 +67,25 @@ const App = () => {
                                 zip.file(`${root}/layout/Sidebar/index.${option}x`, indexCreate("Sidebar"));
                                 zip.file(`${root}/layout/Sidebar/Sidebar.${option}x`, menuCreate(rootName, "Sidebar"));
                                 zip.file(`${root}/layout/Sidebar/SidebarStyled.${option}x`, componentStyledCreate("Sidebar"));
-                            }
-                            if (subFolderName === "Navbar") {
+                            } else if (subFolderName === "Navbar") {
                                 zip.file(`${root}/${folders[index]}/${subFolderName}/index.tsx`, indexCreate(subFolderName));
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}.${option}x`, componentCreate(subFolderName));
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}Styled.${option}x`, componentStyledCreate(subFolderName));
+                            } else {
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/index.${option}x`, indexCreate(subFolderName));
                                 zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}.${option}x`, componentCreate(subFolderName));
                                 zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}Styled.${option}x`, componentStyledCreate(subFolderName));
                             }
                         } else if (folders[index] === "layout" && folderName.includes("Navbar") && !folderName.includes("Sidebar")) {
-                            zip.file(`${root}/layout/Navbar/index.${option}x`, indexCreate("Navbar"));
-                            zip.file(`${root}/layout/Navbar/Navbar.${option}x`, menuCreate(rootName, "Navbar"));
-                            zip.file(`${root}/layout/Navbar/NavbarStyled.${option}x`, componentStyledCreate("Navbar"));
+                            if (subFolderName === "Navbar") {
+                                zip.file(`${root}/layout/Navbar/index.${option}x`, indexCreate("Navbar"));
+                                zip.file(`${root}/layout/Navbar/Navbar.${option}x`, menuCreate(rootName, "Navbar"));
+                                zip.file(`${root}/layout/Navbar/NavbarStyled.${option}x`, componentStyledCreate("Navbar"));
+                            } else {
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/index.${option}x`, indexCreate(subFolderName));
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}.${option}x`, componentCreate(subFolderName));
+                                zip.file(`${root}/${folders[index]}/${subFolderName}/${subFolderName}Styled.${option}x`, componentStyledCreate(subFolderName));
+                            }
                         } else if ((folders[index] === "route" && folderName.includes("Public") && folderName.includes("Private")) || (folders[index] === "route" && !folderName.includes("Public") && folderName.includes("Private"))) {
                             if (subFolderName === "Private") {
                                 zip.file(`${root}/route/Private/index.${option}x`, indexCreate("Private"));
@@ -137,8 +146,13 @@ const App = () => {
             if (conditional.includes(true)) {
                 conditional.forEach((condition: boolean, indexCondition: number) => {
                     if (condition === true) {
-                        path = `${path}-${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
-                        label = `${label} ${Object.values(Object.keys(folders)[index])[indexCondition]}`;
+                        if (indexCondition === 0) {
+                            path = `${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
+                            label = `${Object.values(Object.keys(folders)[index])[indexCondition]}`;
+                        } else {
+                            path = `${path}-${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
+                            label = `${label} ${Object.values(Object.keys(folders)[index])[indexCondition]}`;
+                        }
                     } else {
                         path = path + Object.values(Object.keys(folders)[index])[indexCondition];
                         if (indexCondition === 0) {
@@ -177,7 +191,11 @@ const App = () => {
             if (conditional.includes(true)) {
                 conditional.forEach((condition: boolean, indexCondition: number) => {
                     if (condition === true) {
-                        path = `${path}-${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
+                        if (indexCondition === 0) {
+                            path = `${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
+                        } else {
+                            path = `${path}-${Object.values(Object.keys(folders)[index])[indexCondition].toLowerCase()}`;
+                        }
                     } else {
                         path = path + Object.values(Object.keys(folders)[index])[indexCondition];
                     }
@@ -194,7 +212,7 @@ const App = () => {
             }
         });
 
-        return `import { BrowserRouter, Switch, Route } from "react-router-dom";${elementArray.map((element: { path: string; component: string }): string => `\nimport ${element.component} from "../../${element.component}/${element.component[0].toUpperCase()}${element.component.slice(1)}Root";`).join("")}\n\nconst ${component} = () => {\n    return(\n        <>\n            <BrowserRouter>\n                <Switch>${elementArray.map((element: { path: string; component: string }): string => `\n                    <Route exact path="/${element.path}" component={${element.component}} />`).join("")}\n                </Switch>\n            </BrowserRouter>\n        </>\n    );\n}\n\nexport default ${component};`;
+        return `import { BrowserRouter, Switch, Route } from "react-router-dom";${elementArray.map((element: { path: string; component: string }): string => `\nimport ${element.component} from "../../${element.component}/Root";`).join("")}\n\nconst ${component} = () => {\n    return(\n        <>\n            <BrowserRouter>\n                <Switch>${elementArray.map((element: { path: string; component: string }): string => `\n                    <Route exact path="/${element.path}" component={${element.component}} />`).join("")}\n                </Switch>\n            </BrowserRouter>\n        </>\n    );\n}\n\nexport default ${component};`;
     };
 
     const selectOption = (option: string):void => {
